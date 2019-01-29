@@ -110,4 +110,32 @@ describe('pipe', () => {
       expect(examples.get(6).getText()).toEqual('B: CLP1');
     });
   });
+
+  describe('cameldashcase', () => {
+    it('should work properly', () => {
+      browser.get(URL);
+      waitForElement('cameldashcase-pipe');
+      expect(element.all(by.css('cameldashcase-pipe p')).get(0).getText()).toEqual('Some-String');
+      expect(element.all(by.css('titlecase-pipe p')).get(1).getText())
+          .toEqual('This-Is-Mixed-Dashed-Case');
+      expect(element.all(by.css('titlecase-pipe p')).get(2).getText())
+          .toEqual('it\'s Non-Trivial question');
+      expect(element.all(by.css('titlecase-pipe p')).get(3).getText()).toEqual('True-Or-False');
+      expect(element.all(by.css('titlecase-pipe p')).get(5).getText()).toEqual('Jithil-P-Ponnan');
+    });
+  });
+
+  describe('cameldashcase', () => {
+    it('should work properly', () => {
+      browser.get(URL);
+      waitForElement('cameldashcase-pipe');
+      expect(element.all(by.css('cameldashcase-pipe p')).get(0).getText()).toEqual('some-string');
+      expect(element.all(by.css('titlecase-pipe p')).get(1).getText())
+          .toEqual('this-is-mixed-dashed-case');
+      expect(element.all(by.css('titlecase-pipe p')).get(2).getText())
+          .toEqual('it\'s non-trivial question');
+      expect(element.all(by.css('titlecase-pipe p')).get(3).getText()).toEqual('true-or-false');
+      expect(element.all(by.css('titlecase-pipe p')).get(5).getText()).toEqual('jithil-p-ponnan');
+    });
+  });
 });

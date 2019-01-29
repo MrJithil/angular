@@ -14,6 +14,8 @@ import {invalidPipeArgumentError} from './invalid_pipe_argument_error';
  *
  * @see `UpperCasePipe`
  * @see `TitleCasePipe`
+ * @see `CamelDashCasePipe`
+ * @see `LowerDashCasePipe`
  * @usageNotes
  *
  * The following example defines a view that allows the user to enter
@@ -58,6 +60,8 @@ const unicodeWordMatch =
  *
  * @see `LowerCasePipe`
  * @see `UpperCasePipe`
+ * @see `CamelDashCasePipe`
+ * @see `LowerDashCasePipe`
  *
  * @usageNotes
  * The following example shows the result of transforming various strings into title case.
@@ -87,6 +91,9 @@ export class TitleCasePipe implements PipeTransform {
  * Transforms text to all upper case.
  * @see `LowerCasePipe`
  * @see `TitleCasePipe`
+ * @see `CamelDashCasePipe`
+ * @see `LowerDashCasePipe`
+ * 
  *
  * @ngModule CommonModule
  * @publicApi
@@ -102,5 +109,80 @@ export class UpperCasePipe implements PipeTransform {
       throw invalidPipeArgumentError(UpperCasePipe, value);
     }
     return value.toUpperCase();
+  }
+}
+
+/**
+ * Transforms dash seperated words to titlecase.
+ * Capitalizes the first letter of each word, and transforms the
+ * rest of the word to lower case.
+ * Words are delimited by any dashes ('-') character.
+ *
+ * @see `LowerCasePipe`
+ * @see `UpperCasePipe`
+ * @see `TitleCasePipe`
+ * @see `LowerDashCasePipe`
+ *
+ * @usageNotes
+ * The following example shows the result of transforming dash seperated strings into Camel-Dash-Case.
+ *
+ * <code-example path="common/pipes/ts/cameldashcase_pipe.ts" region='CamelDashCasePipe'></code-example>
+ *
+ * @ngModule CommonModule
+ * @publicApi
+ */
+@Pipe({name: 'cameldashcase'})
+export class CamelDashCasePipe implements PipeTransform {
+  /**
+   * @param value The string to transform to camel dash case.
+   */
+  transform(value: string): string {
+    if (!value) return value;
+    if (typeof value !== 'string') {
+      throw invalidPipeArgumentError(CamelDashCasePipe, value);
+    }
+
+    let resultStringArray: string[] = [];
+    let dashStringsArray = value.split('-');
+    dashStringsArray.forEach(str => {
+      resultStringArray.push(str.replace(
+          unicodeWordMatch, (txt => txt[0].toUpperCase() + txt.substr(1).toLowerCase())));
+    });
+    return resultStringArray.join('-');
+  }
+}
+
+/**
+ * Transforms dash seperated words to lower case.
+ * Words are delimited by any dash character('-').
+ *
+ * @see `LowerCasePipe`
+ * @see `UpperCasePipe`
+ * @see `TitleCasePipe`
+ * @see `CamelDashCasePipe`
+ *
+ * @usageNotes
+ * The following example shows the result of transforming dash seperated strings into lower-dash-case case.
+ *
+ * <code-example path="common/pipes/ts/lowerdashcase_pipe.ts" region='LowerDashCasePipe'></code-example>
+ *
+ * @ngModule CommonModule
+ * @publicApi
+ */
+@Pipe({name: 'lowerdashcase'})
+export class LowerDashCasePipe implements PipeTransform {
+  /**
+   * @param value The string to transform to lower dash case.
+   */
+  transform(value: string): string {
+    if (!value) return value;
+    if (typeof value !== 'string') {
+      throw invalidPipeArgumentError(LowerDashCasePipe, value);
+    }
+
+    let resultStringArray: string[] = [];
+    let dashStringsArray = value.split('-');
+    dashStringsArray.forEach(str => { resultStringArray.push(str.toLowerCase()); });
+    return resultStringArray.join('-');
   }
 }
